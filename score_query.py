@@ -69,9 +69,9 @@ async def send_notification(uid: bytes, scores: List[Score]):
         openid_res = await cursor.fetchone()
 
     task: List[Awaitable] = []
-    if len(apn_res) != 0:
+    if apn_res is not None:
         task.append(_send_ios_notification(apn_res[0], scores))
-    if len(openid_res) != 0:
+    if openid_res is not None:
         task.append(_send_wechat_notification(openid_res[0], scores))
 
     await asyncio.gather(*task)
